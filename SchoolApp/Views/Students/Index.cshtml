@@ -9,6 +9,12 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+<input type="text"
+       id="searchBox"
+       class="form-control mb-3"
+       placeholder="Live search - Justin" />
+
 <table class="table">
     <thead>
         <tr>
@@ -33,8 +39,10 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
-@foreach (var item in Model) {
+
+    <tbody id="studentRows">
+@foreach (var item in Model)
+{
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.StudentNo)
@@ -63,3 +71,27 @@
 }
     </tbody>
 </table>
+
+@section Scripts {
+<script>
+document.getElementById("searchBox").addEventListener("input", function () {
+
+    const text = this.value.toLowerCase();
+
+    document.querySelectorAll("#studentRows tr").forEach(function (row) {
+
+        const rowText =
+        (
+            row.cells[0].textContent + " " +
+            row.cells[1].textContent + " " +
+            row.cells[2].textContent
+        ).toLowerCase();
+
+        row.style.display =
+            rowText.includes(text) ? "" : "none";
+
+    });
+
+});
+</script>
+}
